@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Aura Performance - Premium Sportswear for the Modern Athlete. Experience the fusion of technology and style.">
+    <meta name="description"
+        content="Aura Performance - Premium Sportswear for the Modern Athlete. Experience the fusion of technology and style.">
     <title>Aura Performance | Future of Sportswear</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,6 +13,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
     <nav class="navbar">
         <div class="container nav-container">
@@ -22,19 +25,30 @@
                 <li><a href="#tech">Tech</a></li>
             </ul>
             <div class="nav-icons">
-                <a href="#" aria-label="Search"><i class="fas fa-search"></i></a>
-                <a href="#" aria-label="Account"><i class="fas fa-user"></i></a>
-                <a href="#" aria-label="Cart" class="cart-icon">
+                <button onclick="alert('Search functionality coming soon!')" aria-label="Search"><i class="fas fa-search"></i></button>
+                <button onclick="alert('Account functionality coming soon!')" aria-label="Account"><i class="fas fa-user"></i></button>
+                <a href="cart.html" aria-label="Cart" class="cart-icon">
                     <i class="fas fa-shopping-bag"></i>
                     <span class="cart-count">0</span>
                 </a>
             </div>
-            <button class="mobile-menu-btn" aria-label="Menu">
+            <button class="mobile-menu-btn" aria-label="Toggle mobile menu" aria-expanded="false">
                 <span></span>
                 <span></span>
             </button>
         </div>
     </nav>
+
+    <div class="mobile-menu-overlay">
+        <div class="mobile-menu-content">
+            <a href="#new-arrivals" class="mobile-menu-link">New Arrivals</a>
+            <a href="#men" class="mobile-menu-link">Men</a>
+            <a href="#women" class="mobile-menu-link">Women</a>
+            <a href="#tech" class="mobile-menu-link">Tech</a>
+            <a href="#" class="mobile-menu-link">Search</a>
+            <a href="#" class="mobile-menu-link">Account</a>
+        </div>
+    </div>
 
     <header class="hero">
         <div class="hero-bg">
@@ -44,7 +58,8 @@
         <div class="container hero-content">
             <span class="hero-subtitle fade-in-up">Next Gen Performance</span>
             <h1 class="hero-title fade-in-up delay-1">DEFY<br>GRAVITY</h1>
-            <p class="hero-text fade-in-up delay-2">Engineered for those who refuse to settle. Experience the perfect synergy of futuristic aesthetics and peak functionality.</p>
+            <p class="hero-text fade-in-up delay-2">Engineered for those who refuse to settle. Experience the perfect
+                synergy of futuristic aesthetics and peak functionality.</p>
             <div class="hero-btns fade-in-up delay-3">
                 <a href="#shop" class="btn btn-primary">Shop Collection</a>
                 <a href="#about" class="btn btn-outline">Explore Tech</a>
@@ -54,17 +69,17 @@
 
     <section class="features">
         <div class="container features-grid">
-            <div class="feature-card">
+            <div class="feature-card fade-in-up">
                 <i class="fas fa-bolt"></i>
                 <h3>Kinetic Energy</h3>
                 <p>Fabrics that respond to your movement.</p>
             </div>
-            <div class="feature-card">
+            <div class="feature-card fade-in-up delay-1">
                 <i class="fas fa-tint-slash"></i>
                 <h3>Hydro-Shield</h3>
                 <p>Advanced moisture wicking technology.</p>
             </div>
-            <div class="feature-card">
+            <div class="feature-card fade-in-up delay-2">
                 <i class="fas fa-feather"></i>
                 <h3>Zero-G Feel</h3>
                 <p>Ultra-lightweight materials for maximum speed.</p>
@@ -80,43 +95,55 @@
             </div>
             <div class="product-grid">
                 <!-- Product 1 -->
-                <div class="product-card">
+                <div class="product-card fade-in-up" data-id="1">
                     <div class="product-image">
-                        <div class="img-placeholder" style="background: linear-gradient(45deg, #2a2a2a, #333);"></div>
+                        <a href="product-detail.html?id=1">
+                            <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                alt="Phantom Runner Jacket" class="img-placeholder">
+                        </a>
                         <span class="badge">New</span>
-                        <button class="quick-add" aria-label="Add to Cart"><i class="fas fa-plus"></i></button>
+                        <button class="quick-add" aria-label="Add to Cart" onclick="Cart.addItem(1)"><i
+                                class="fas fa-plus"></i></button>
                     </div>
                     <div class="product-info">
-                        <h3>Phantom Runner Jacket</h3>
+                        <h3><a href="product-detail.html?id=1">Phantom Runner Jacket</a></h3>
                         <p class="price">$145.00</p>
                     </div>
                 </div>
                 <!-- Product 2 -->
-                <div class="product-card">
+                <div class="product-card fade-in-up delay-1" data-id="2">
                     <div class="product-image">
-                        <div class="img-placeholder" style="background: linear-gradient(45deg, #1f1f1f, #252525);"></div>
-                        <button class="quick-add" aria-label="Add to Cart"><i class="fas fa-plus"></i></button>
+                        <a href="product-detail.html?id=2">
+                            <img src="https://images.unsplash.com/photo-1506629082955-511b1aa562c8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                alt="Neon Pulse Leggings" class="img-placeholder">
+                        </a>
+                        <button class="quick-add" aria-label="Add to Cart" onclick="Cart.addItem(2)"><i
+                                class="fas fa-plus"></i></button>
                     </div>
                     <div class="product-info">
-                        <h3>Neon Pulse Leggings</h3>
+                        <h3><a href="product-detail.html?id=2">Neon Pulse Leggings</a></h3>
                         <p class="price">$98.00</p>
                     </div>
                 </div>
                 <!-- Product 3 -->
-                <div class="product-card">
+                <div class="product-card fade-in-up delay-2" data-id="3">
                     <div class="product-image">
-                        <div class="img-placeholder" style="background: linear-gradient(45deg, #2a2a2a, #333);"></div>
-                        <button class="quick-add" aria-label="Add to Cart"><i class="fas fa-plus"></i></button>
+                        <a href="product-detail.html?id=3">
+                            <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                alt="Velocity Tech Tee" class="img-placeholder">
+                        </a>
+                        <button class="quick-add" aria-label="Add to Cart" onclick="Cart.addItem(3)"><i
+                                class="fas fa-plus"></i></button>
                     </div>
                     <div class="product-info">
-                        <h3>Velocity Tech Tee</h3>
+                        <h3><a href="product-detail.html?id=3">Velocity Tech Tee</a></h3>
                         <p class="price">$55.00</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    
+
     <section class="cta-banner">
         <div class="container">
             <h2>Ready to Upgrade?</h2>
@@ -160,6 +187,9 @@
         </div>
     </footer>
 
+    <script src="js/products.js"></script>
+    <script src="js/cart.js"></script>
     <script src="js/app.js"></script>
 </body>
+
 </html>

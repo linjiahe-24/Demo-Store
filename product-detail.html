@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Product Detail - Aura Performance Sportswear">
+    <title>Product Detail | Aura Performance</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <nav class="navbar scrolled">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">AURA<span class="accent">.</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html#new-arrivals">New Arrivals</a></li>
+                <li><a href="#">Men</a></li>
+                <li><a href="#">Women</a></li>
+                <li><a href="#">Tech</a></li>
+            </ul>
+            <div class="nav-icons">
+                <a href="#" aria-label="Search"><i class="fas fa-search"></i></a>
+                <a href="#" aria-label="Account"><i class="fas fa-user"></i></a>
+                <a href="cart.html" aria-label="Cart" class="cart-icon">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="product-detail">
+        <div class="container">
+            <div id="product-content" class="detail-grid">
+                <!-- Data populated by JS -->
+                <div class="loading">Loading product details...</div>
+            </div>
+
+            <script>
+                // Fallback: If the page doesn't load after 3 seconds, show an error
+                setTimeout(() => {
+                    const content = document.getElementById('product-content');
+                    if (content && content.querySelector('.loading')) {
+                        content.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 3rem;"><h2>Failed to load product details</h2><p>Please check the console for errors and try refreshing the page.</p><a href="index.html" class="btn btn-primary">Back to Home</a></div>';
+                    }
+                }, 3000);
+            </script>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <a href="index.html" class="logo">AURA<span class="accent">.</span></a>
+                <p>Redefining athletic wear for the digital age.</p>
+            </div>
+            <div class="footer-links">
+                <div class="link-group">
+                    <h4>Shop</h4>
+                    <a href="#">Men</a>
+                    <a href="#">Women</a>
+                    <a href="#">Accessories</a>
+                </div>
+                <div class="link-group">
+                    <h4>Support</h4>
+                    <a href="#">FAQ</a>
+                    <a href="#">Shipping</a>
+                    <a href="#">Returns</a>
+                </div>
+                <div class="link-group">
+                    <h4>Social</h4>
+                    <a href="#">Instagram</a>
+                    <a href="#">Twitter</a>
+                    <a href="#">TikTok</a>
+                </div>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; 2024 Aura Performance. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/products.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const productId = parseInt(urlParams.get('id'));
+
+                if (isNaN(productId) || !products) {
+                    document.getElementById('product-content').innerHTML = '<h2>Unable to load product. Please check your connection and try again.</h2>';
+                    return;
+                }
+
+                const product = products.find(p => p.id === productId);
+
+                if (!product) {
+                    document.getElementById('product-content').innerHTML = '<h2>Product not found.</h2>';
+                    return;
+                }
+
+                document.title = `${product.name} | Aura Performance`;
+
+                const content = `
+                <div class="detail-image fade-in-up">
+                    <img src="${product.image}" alt="${product.name}">
+                </div>
+                <div class="detail-info fade-in-up delay-1">
+                    <span class="detail-category">${product.category}</span>
+                    <h1>${product.name}</h1>
+                    <p class="detail-price">$${product.price.toFixed(2)}</p>
+                    <p class="detail-description">${product.description}</p>
+                    
+                    <div class="detail-options">
+                        <div class="option-group">
+                            <span class="option-label">Select Color</span>
+                            <div class="option-chips" id="color-chips">
+                                ${product.variations.colors.map((c, i) => `<div class="chip ${i === 0 ? 'active' : ''}" data-type="color" data-val="${c}">${c}</div>`).join('')}
+                            </div>
+                        </div>
+                        <div class="option-group">
+                            <span class="option-label">Select Size</span>
+                            <div class="option-chips" id="size-chips">
+                                ${product.variations.sizes.map((s, i) => `<div class="chip ${i === 2 ? 'active' : ''}" data-type="size" data-val="${s}">${s}</div>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="add-to-cart-section">
+                        <div class="qty-input">
+                            <button class="qty-btn" id="qty-minus"><i class="fas fa-minus"></i></button>
+                            <span id="qty-val">1</span>
+                            <button class="qty-btn" id="qty-plus"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <button class="btn btn-primary" id="add-btn" style="flex: 1;">Add to Cart</button>
+                    </div>
+
+                    <div class="detail-tabs">
+                        <div class="tab-nav">
+                            <button class="tab-btn active" data-tab="details">Details</button>
+                            <button class="tab-btn" data-tab="reviews">Reviews (${product.reviews.length})</button>
+                        </div>
+                        <div class="tab-content active" id="tab-details">
+                            <ul style="list-style: disc; padding-left: 1.5rem; color: var(--text-muted);">
+                                ${product.details.map(d => `<li style="margin-bottom: 0.5rem;">${d}</li>`).join('')}
+                            </ul>
+                        </div>
+                        <div class="tab-content" id="tab-reviews">
+                            ${product.reviews.map(r => `
+                                <div class="review-item">
+                                    <div class="review-header">
+                                        <strong>${r.user}</strong>
+                                        <div class="stars" style="color: #ffcc00;">
+                                            ${Array(r.rating).fill('<i class="fas fa-star"></i>').join('')}
+                                        </div>
+                                    </div>
+                                    <p style="font-size: 0.9rem; color: var(--text-muted);">${r.comment}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('product-content').innerHTML = content;
+
+            // Handle Interaction
+            const chips = document.querySelectorAll('.chip');
+            chips.forEach(c => {
+                c.setAttribute('tabindex', '0');
+                c.setAttribute('role', 'button');
+                c.setAttribute('aria-pressed', 'false');
+
+                const handleChipSelect = () => {
+                    c.parentElement.querySelector('.active').classList.remove('active');
+                    c.parentElement.querySelector('.active')?.setAttribute('aria-pressed', 'false');
+                    c.classList.add('active');
+                    c.setAttribute('aria-pressed', 'true');
+                };
+
+                c.addEventListener('click', handleChipSelect);
+                c.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        handleChipSelect();
+                    }
+                });
+            });
+
+            let qty = 1;
+            const qtyPlusBtn = document.getElementById('qty-plus');
+            const qtyMinusBtn = document.getElementById('qty-minus');
+
+            const increaseQty = () => { qty++; updateQty(); };
+            const decreaseQty = () => { if (qty > 1) qty--; updateQty(); };
+
+            qtyPlusBtn.onclick = increaseQty;
+            qtyMinusBtn.onclick = decreaseQty;
+
+            // Add keyboard support
+            qtyPlusBtn.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    increaseQty();
+                }
+            });
+
+            qtyMinusBtn.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    decreaseQty();
+                }
+            });
+
+            function updateQty() {
+                document.getElementById('qty-val').innerText = qty;
+                qtyMinusBtn.disabled = qty <= 1;
+                qtyMinusBtn.setAttribute('aria-disabled', qty <= 1);
+            }
+
+            // Initialize
+            updateQty();
+
+            document.getElementById('add-btn').onclick = function () {
+                const activeColorChip = document.querySelector('#color-chips .active');
+                const activeSizeChip = document.querySelector('#size-chips .active');
+
+                if (!activeColorChip || !activeSizeChip) {
+                    alert('Please select both color and size before adding to cart.');
+                    return;
+                }
+
+                const color = activeColorChip.dataset.val;
+                const size = activeSizeChip.dataset.val;
+
+                Cart.addItem(product.id, qty, { color, size });
+
+                this.innerText = 'Added to Cart!';
+                this.style.background = '#00ff00';
+                this.style.color = '#000';
+                setTimeout(() => {
+                    this.innerText = 'Add to Cart';
+                    this.style.background = '';
+                    this.style.color = '';
+                }, 2000);
+            };
+
+            // Tabs
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            tabBtns.forEach(btn => {
+                btn.onclick = () => {
+                    document.querySelector('.tab-btn.active').classList.remove('active');
+                    document.querySelector('.tab-content.active').classList.remove('active');
+                    btn.classList.add('active');
+                    document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
+                };
+            });
+            } catch (error) {
+                console.error('Error loading product details:', error);
+                document.getElementById('product-content').innerHTML = '<h2>Error loading product. Please try again.</h2>';
+            }
+        });
+    </script>
+</body>
+
+</html>

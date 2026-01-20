@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | Aura Performance</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <nav class="navbar scrolled">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">AURA<span class="accent">.</span></a>
+            <div class="nav-icons">
+                <a href="cart.html" style="font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-arrow-left"></i> Return to Cart
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="checkout-page">
+        <div class="container">
+            <h1 style="margin-bottom: 3rem;">Secure Checkout</h1>
+            <div class="checkout-grid">
+                <div class="checkout-left">
+                    <section class="checkout-section">
+                        <h2 id="shipping-heading"><i class="fas fa-shipping-fast"></i> Shipping Address</h2>
+                        <form id="shipping-form" role="form" aria-labelledby="shipping-heading">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="first-name">First Name</label>
+                                    <input type="text" id="first-name" placeholder="John" required aria-required="true">
+                                </div>
+                                <div class="form-group">
+                                    <label for="last-name">Last Name</label>
+                                    <input type="text" id="last-name" placeholder="Doe" required aria-required="true">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" placeholder="your@email.com" required aria-required="true">
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Address</label>
+                                <input type="text" id="address" placeholder="123 Future St" required aria-required="true">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="city">City</label>
+                                    <input type="text" id="city" placeholder="Neo Tokyo" required aria-required="true">
+                                </div>
+                                <div class="form-group">
+                                    <label for="zip-code">Zip Code</label>
+                                    <input type="text" id="zip-code" placeholder="10101" required aria-required="true">
+                                </div>
+                            </div>
+                        </form>
+                    </section>
+
+                    <section class="checkout-section">
+                        <h2 id="payment-heading"><i class="fas fa-credit-card"></i> Payment Method</h2>
+                        <div class="payment-options" role="radiogroup" aria-labelledby="payment-heading">
+                            <div class="payment-option active" onclick="selectPayment(this)" role="radio" aria-checked="true" tabindex="0">
+                                <div class="payment-info">
+                                    <i class="fab fa-cc-visa" aria-hidden="true"></i>
+                                    <div>
+                                        <strong>Visa / Mastercard</strong>
+                                        <p style="font-size: 0.8rem; color: var(--text-muted);">Credit or Debit card</p>
+                                    </div>
+                                </div>
+                                <div class="radio-circle" aria-hidden="true"></div>
+                            </div>
+                            <div class="payment-option" onclick="selectPayment(this)" role="radio" aria-checked="false" tabindex="0">
+                                <div class="payment-info">
+                                    <i class="fab fa-paypal" aria-hidden="true"></i>
+                                    <div>
+                                        <strong>PayPal</strong>
+                                        <p style="font-size: 0.8rem; color: var(--text-muted);">Fast and secure checkout
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="radio-circle" aria-hidden="true"></div>
+                            </div>
+                        </div>
+
+                        <div id="card-details" style="margin-top: 2rem;">
+                            <div class="form-group">
+                                <label>Card Number</label>
+                                <input type="text" placeholder="0000 0000 0000 0000">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Expiry Date</label>
+                                    <input type="text" placeholder="MM/YY">
+                                </div>
+                                <div class="form-group">
+                                    <label>CVV</label>
+                                    <input type="text" placeholder="***">
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="checkout-right">
+                    <div class="cart-summary">
+                        <h2>Order Summary</h2>
+                        <div id="checkout-items" style="margin-bottom: 2rem;">
+                            <!-- Items populated by JS -->
+                        </div>
+                        <div class="summary-row">
+                            <span>Subtotal</span>
+                            <span id="subtotal">$0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Shipping</span>
+                            <span style="color: #00ff00;">FREE</span>
+                        </div>
+                        <div class="summary-row summary-total">
+                            <span>Total</span>
+                            <span id="total" style="color: var(--primary);">$0.00</span>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 2rem;"
+                            onclick="placeOrder()">Place Order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/products.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (Cart.items.length === 0) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            const itemsContainer = document.getElementById('checkout-items');
+            itemsContainer.innerHTML = Cart.items.map(item => `
+                <div class="checkout-summary-item">
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="checkout-summary-info">
+                        <h4>${item.name}</h4>
+                        <p>${item.variation?.color || 'Standard'} | ${item.variation?.size || 'One Size'} | x${item.quantity}</p>
+                    </div>
+                    <div style="margin-left: auto; font-weight: 600;">$${(item.price * item.quantity).toFixed(2)}</div>
+                </div>
+            `).join('');
+
+            document.getElementById('subtotal').innerText = `$${Cart.getTotal().toFixed(2)}`;
+            document.getElementById('total').innerText = `$${(Cart.getTotal() * 1.08).toFixed(2)}`;
+        });
+
+        function selectPayment(el) {
+            document.querySelectorAll('.payment-option').forEach(opt => {
+                opt.classList.remove('active');
+                opt.setAttribute('aria-checked', 'false');
+            });
+            el.classList.add('active');
+            el.setAttribute('aria-checked', 'true');
+
+            const cardDetails = document.getElementById('card-details');
+            if (el.innerText.includes('PayPal')) {
+                cardDetails.style.display = 'none';
+            } else {
+                cardDetails.style.display = 'block';
+            }
+        }
+
+        // Add keyboard support for payment options
+        document.querySelectorAll('.payment-option').forEach(option => {
+            option.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    selectPayment(option);
+                }
+            });
+        });
+
+        function validateShippingForm() {
+            const form = document.getElementById('shipping-form');
+            const inputs = form.querySelectorAll('input[required]');
+            let isValid = true;
+
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    input.style.borderColor = '#ff4444';
+                    isValid = false;
+                } else {
+                    input.style.borderColor = '';
+                }
+            });
+
+            const email = form.querySelector('input[type="email"]');
+            if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+                email.style.borderColor = '#ff4444';
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        function validatePaymentForm() {
+            const selectedPayment = document.querySelector('.payment-option.active');
+            if (!selectedPayment) {
+                alert('Please select a payment method.');
+                return false;
+            }
+
+            if (selectedPayment.innerText.includes('Visa')) {
+                const cardNumber = document.querySelector('input[placeholder="0000 0000 0000 0000"]');
+                const expiry = document.querySelector('input[placeholder="MM/YY"]');
+                const cvv = document.querySelector('input[placeholder="***"]');
+
+                if (!cardNumber.value.trim() || !expiry.value.trim() || !cvv.value.trim()) {
+                    alert('Please fill in all card details.');
+                    return false;
+                }
+
+                // Basic card number validation (16 digits)
+                if (!/^\d{16}$/.test(cardNumber.value.replace(/\s/g, ''))) {
+                    alert('Please enter a valid 16-digit card number.');
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        function placeOrder() {
+            if (!validateShippingForm()) {
+                alert('Please fill in all required shipping information.');
+                return;
+            }
+
+            if (!validatePaymentForm()) {
+                return;
+            }
+
+            // In a real application, this would process the payment
+            alert('Order placed successfully! Thank you for choosing Aura Performance.');
+            localStorage.removeItem('aura_cart');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+
+</html>
